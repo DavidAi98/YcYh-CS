@@ -168,7 +168,7 @@ private void displayQuestion() {//Can see from the Design page, displaying quest
 
         jLabel1.setText("Your Answer？ （A, B, or C)");
 
-        jLabel2.setText("Earth is our home, she needs everyone to care about her...");
+        jLabel2.setText("cool");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -188,7 +188,7 @@ private void displayQuestion() {//Can see from the Design page, displaying quest
                         .addGap(86, 86, 86))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 676, Short.MAX_VALUE)
                         .addComponent(returnHomeButton)
                         .addGap(57, 57, 57))
                     .addGroup(layout.createSequentialGroup()
