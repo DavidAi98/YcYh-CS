@@ -1,3 +1,12 @@
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -20,6 +29,119 @@
  * @author Lenovo
  */
 public class ManualFrame extends javax.swing.JFrame {
+    
+    public static String[] names;
+    public static int[] experiences;
+    public static String[] identities;
+    public static int[][] options;
+    public static int[] scores;
+    
+
+//    /**
+//* Loads quiz score history from the CSV file if it exists.
+//* Each line in the file contains a single integer score.
+//*/    
+//private void loadHistoryFromFile() {
+//java.io.File file = new java.io.File(HISTORY_FILE); // Reference file object
+//
+//
+//if (!file.exists()) return; // If no history exists, skip loading
+//
+//
+//try (java.util.Scanner sc = new java.util.Scanner(file)) { // Read file using Scanner
+//while (sc.hasNextLine()) {
+//String line = sc.nextLine(); // Read one line from CSV
+//String[] parts = line.split(","); // Split by comma
+//
+//
+//if (parts.length >= 1) {
+//// Parse score and add to history
+//scoreHistory.add(Integer.parseInt(parts[0]));
+//}
+//}
+//} catch (Exception e) {
+//System.out.println("Error reading history: " + e.getMessage()); // Print error message
+//}
+//}
+    
+        //Method with no return and parameter
+    public static void readFile(){
+        //initialize and define the index counting varible
+        int index = 0;
+        int index2=0;
+        File file = new File(HISTORY_FILE);
+        if (!file.exists()) return;
+        try{
+            Scanner scan = new Scanner(file);
+            //use while loop and hasNextLIne method to go through each line and store the data to the array
+            while(scan.hasNextLine()){
+            
+                
+                //split each line of the file and store as an array
+                String[] data=scan.nextLine().split("||");
+            
+                if(data.length>1){
+                    index2=0;
+                    //store the data to corresponding array
+                    names[index] = data[0];
+                    experiences[index] = Integer.parseInt(data[1].trim());
+                    identities[index] = data[2];
+                    scores[index] = Integer.parseInt(data[3].trim());
+          
+                    index++;
+                }else{
+                    options[index][index2]=Integer.parseInt(data[0].trim());
+                    index2++;
+                }
+                
+            
+            }
+            scan.close();//save the scan
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+    }
+        //Method with return and no parameter
+    public static int countLine() {
+        //count the lines of the file
+        //define and initialize the count varible
+        int linecount = 0;
+        try {
+            Scanner scan = new Scanner(new File(HISTORY_FILE));
+            //use the while loop and hasNextLine method to count each line
+            while (scan.hasNextLine()) {
+                String[] data=scan.nextLine().split("||");
+                if(data.length>1)
+                    linecount++;
+                scan.nextLine();
+            }
+            //save the scan
+            scan.close();
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        //return the linecount number
+        return linecount;
+}
+    
+     //the method with parameters
+    public static void writeFile(String name,int experience,String identity,int score,int[] options){
+        //write to the file. This is called in AddNew frame
+        try{
+            //creat the printwriter object
+            PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
+            //write the information to the file and round the double to 2 decimal point
+            writer.printf("%s||%d||%s||%d||%n",name,experience,identity,score);
+            for(int i = 0;i<5;i++){
+                writer.printf("%d%n",options[i]);
+            }
+            writer.close();//save the writer
+        }catch(IOException ioee){
+            System.err.println(ioee);
+        }
+    }
+    
+    
     /**
     * Stores the quiz scores from past sessions. Each score represents the
     * number of correct answers out of 5.
@@ -29,7 +151,7 @@ public class ManualFrame extends javax.swing.JFrame {
 * File used for storing/reading quiz history so data is saved even when
 * the program closes.
 */
-    private static final String HISTORY_FILE = "quiz_history.csv";//Very important for the History File- can read and type in again even the program is shutted down
+    private static final String HISTORY_FILE = "scoreHistory.txt";//Very important for the History File- can read and type in again even the program is shutted down
     
 
 /**
@@ -40,7 +162,31 @@ public class ManualFrame extends javax.swing.JFrame {
      */
     public ManualFrame() {
         initComponents();
-        loadHistoryFromFile();//Connecting to the above, history storing 
+        
+            
+    addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                System.out.println("JFrame is now focused!");
+                //set the size of each array with the countLine method
+                //run each time the frame is opened to update the array
+                names = new String[countLine()];
+                experiences = new int[countLine()];
+                identities = new String[countLine()];
+                scores = new int[countLine()];
+                options= new int[countLine()][5];
+                
+              
+                //call the readfile method to update the array
+                readFile();
+                
+                
+                
+            }
+        });
+        
+        readFile();//Connecting to the above, history storing
+//        loadHistoryFromFile(); 
         // Load stored score history on startup
         
         //Below is some GUI design, not important but beautiful
@@ -72,32 +218,7 @@ public class ManualFrame extends javax.swing.JFrame {
 
     }
 
-/**
-* Loads quiz score history from the CSV file if it exists.
-* Each line in the file contains a single integer score.
-*/    
-private void loadHistoryFromFile() {
-java.io.File file = new java.io.File(HISTORY_FILE); // Reference file object
 
-
-if (!file.exists()) return; // If no history exists, skip loading
-
-
-try (java.util.Scanner sc = new java.util.Scanner(file)) { // Read file using Scanner
-while (sc.hasNextLine()) {
-String line = sc.nextLine(); // Read one line from CSV
-String[] parts = line.split(","); // Split by comma
-
-
-if (parts.length >= 1) {
-// Parse score and add to history
-scoreHistory.add(Integer.parseInt(parts[0]));
-}
-}
-} catch (Exception e) {
-System.out.println("Error reading history: " + e.getMessage()); // Print error message
-}
-}
     
 
     /**
