@@ -285,8 +285,8 @@ displayQuestion();
 } else {
 // Quiz finished: show final result, save history, and disable inputs
 resultLabel.setText("Score: " + score + "/5 | Correct: A B C A A");
-HomeFrame.scoreHistory.add(score);
-saveScoreToFile(score);
+ManualFrame.scoreHistory.add(score);
+saveScoreToFile(score,null);
 
 
 // Prevent further input to avoid IndexOutOfBounds on repeated clicks.
@@ -306,7 +306,7 @@ javax.swing.JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + 
 */
     private void returnHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnHomeButtonActionPerformed
         // TODO add your handling code here:
-        new HomeFrame().setVisible(true);//These two lines are for frame changing
+        new ManualFrame().setVisible(true);//These two lines are for frame changing
         this.setVisible(false);
     }//GEN-LAST:event_returnHomeButtonActionPerformed
 
@@ -316,14 +316,18 @@ javax.swing.JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + 
 *
 * @param score Score achieved in the quiz
 */
-private void saveScoreToFile(int score) {
-try (java.io.FileWriter fw = new java.io.FileWriter("quiz_history.csv", true)) {
-String date = java.time.LocalDate.now().toString();
-String time = java.time.LocalTime.now().withSecond(0).toString();
-fw.write(score + "," + date + "," + time + "");
-} catch (Exception e) {
-System.out.println("Error writing to history: " + e.getMessage());
-}
+private void saveScoreToFile(int score,String feedback) {
+    
+
+    try (java.io.FileWriter fw = new java.io.FileWriter("scoreHisitory.txt", true)) {
+//        String date = java.time.LocalDate.now().toString();
+//        String time = java.time.LocalTime.now().withSecond(0).toString();
+        fw.write(score + "||" + feedback +"");
+
+    } catch (Exception e) {
+        System.out.println("Error writing to history: " + e.getMessage());
+
+    }
 }
 
     /**
