@@ -125,22 +125,33 @@ public class ManualFrame extends javax.swing.JFrame {
 }
     
      //the method with parameters
-    public static void writeFile(String name,int experience,String identity,int score,int[] options){
+    public static void writeFile1(String name,int experience,String identity,int score){
         //write to the file. This is called in AddNew frame
         try{
             //creat the printwriter object
             PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
             //write the information to the file and round the double to 2 decimal point
             writer.printf("%s||%d||%s||%d||%n",name,experience,identity,score);
-            for(int i = 0;i<5;i++){
-                writer.printf("%d%n",options[i]);
-            }
+
             writer.close();//save the writer
         }catch(IOException ioee){
             System.err.println(ioee);
         }
     }
-    
+        public static void writeFile2(int[] options){
+        //write to the file. This is called in AddNew frame
+        try{
+            //creat the printwriter object
+            PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
+            //write the information to the file and round the double to 2 decimal point
+            for(int i = 0;i<5;i++)
+                 writer.printf("%d%n",options[i]);
+
+            writer.close();//save the writer
+        }catch(IOException ioee){
+            System.err.println(ioee);
+        }
+    }
     
     /**
     * Stores the quiz scores from past sessions. Each score represents the
