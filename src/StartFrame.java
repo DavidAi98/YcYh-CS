@@ -1,7 +1,12 @@
+
+
+import People.Person;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+
 
 /**
  *
@@ -9,6 +14,12 @@
  */
 public class StartFrame extends javax.swing.JFrame {
 
+    /**
+     *
+     */
+    public static Person[] persons;
+    public static int NOP;
+    public static String type;
     /**
      * Creates new form StartFrame
      */
@@ -41,6 +52,11 @@ public class StartFrame extends javax.swing.JFrame {
         });
 
         jButton2.setText("Developer");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTextField1.setText("Start the analyzer as a");
 
@@ -87,8 +103,17 @@ public class StartFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+        type = "user";
+        new BasicInfo().setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        type = "developer";
+        new BasicInfo().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
