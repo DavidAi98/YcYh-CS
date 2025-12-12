@@ -31,8 +31,8 @@ public class Developer extends Person{
         this.score = score;
     }
     
-    public void setOptions(int i,int x){
-        this.options[i] = x;
+    public void setOptions(int[] x){
+        this.options=x;
     }
     public String getIdentity(){
         return "developer";

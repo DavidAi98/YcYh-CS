@@ -37,6 +37,9 @@ public class QuizQuiz extends javax.swing.JFrame {
     
     Person person = StartManual.getList().get(StartManual.NOP-1);
 
+    int[] scores = new int[5];
+    int index2=0;
+    
     
 /** Index of the currently displayed question. */
 int index = 0;//essential to the question display
@@ -77,12 +80,12 @@ public QuizQuiz() {
                 System.out.println("JFrame is now focused!");
                 //add codde here
 
-                if(person instanceof Developer){
-                        Developer pperson = ((Developer) person);
-                         StartManual.writeFile(pperson.getName(), pperson.getExperience(), pperson.getIdentity());
-                }else if(person instanceof User){
-                       User pperson = ((User) person);
-                        StartManual.writeFile(pperson.getName(), pperson.getExperience(), pperson.getIdentity());
+                if(person instanceof Developer developer){
+                    
+                         StartManual.writeFile(person.getName(), person.getExperience(), "developer");
+                }else if(person instanceof User user){
+                    
+                        StartManual.writeFile(person.getName(), person.getExperience(), "user");
                 }
                 
                
@@ -327,7 +330,8 @@ displayQuestion();
 resultLabel.setText("Score: " + score + "/5 | Correct: A B C A A");
 StartManual.scoreHistory.add(score);
 
-saveScoreToFile(score,null);
+saveScoreToFile(score);
+
 
 
 // Prevent further input to avoid IndexOutOfBounds on repeated clicks.
@@ -347,6 +351,7 @@ javax.swing.JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + 
 */
     private void returnHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnHomeButtonActionPerformed
         // TODO add your handling code here:
+        saveScoreToPerson(person,scores);
         new StartManual().setVisible(true);//These two lines are for frame changing
         this.setVisible(false);
     }//GEN-LAST:event_returnHomeButtonActionPerformed
@@ -357,18 +362,34 @@ javax.swing.JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + 
 *
 * @param score Score achieved in the quiz
 */
-private void saveScoreToFile(int score,String feedback) {
+private void saveScoreToFile(int score) {
+    
     
 
+    scores[index2] = score;
+    index2++;
+    
     try (FileWriter fw = new FileWriter("scoreHisitory.txt", true)) {
 
-        fw.write(score + "||" + feedback +"");
+        fw.write(score);
 
     } catch (Exception e) {
+        
         System.out.println("Error writing to history: " + e.getMessage());
 
     }
 }
+private void saveScoreToPerson(Person person, int[] scores){
+                if(person instanceof Developer developer){
+                         developer.setOptions(scores);
+                         StartManual.writeFile(person.getName(), person.getExperience(), "developer");
+                }else if(person instanceof User user){
+                        user.setOptions(scores);
+                        StartManual.writeFile(person.getName(), person.getExperience(), "user");
+                }
+                    
+}
+
 
     /**
      * @param args the command line arguments

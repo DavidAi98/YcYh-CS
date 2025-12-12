@@ -34,7 +34,7 @@ import java.util.Scanner;
  */
 public class StartManual extends javax.swing.JFrame {
     
-    private static ArrayList<Person> persons = null;
+    private static ArrayList<Person> persons = new java.util.ArrayList<>();
     public static java.util.ArrayList<Integer> scoreHistory = new java.util.ArrayList<>();
 //Very impottant for storing the scores
      private static final String HISTORY_FILE = "scoreHistory.txt";
@@ -79,10 +79,9 @@ public class StartManual extends javax.swing.JFrame {
 //}
     
         //Method with no return and parameter
-    public static void readFile(){
+    public static void readFile(String result){
         //initialize and define the index counting varible
         int index = 0;
-        int index2=0;
         File file = new File(HISTORY_FILE);
         if (!file.exists()) return;
         
@@ -94,37 +93,16 @@ public class StartManual extends javax.swing.JFrame {
                 
                 //split each line of the file and store as an array
                 String[] data=scan.nextLine().split("||");
-                
-                Person person;
-                
-                if(data.length>1){
-                    index2=0;
-                    person = persons.get(index);
-                    //store the data to corresponding array
-          
-                    if(person instanceof Developer developer){
-                        developer.setScore(Integer.parseInt(data[3].trim()));
-                    }else if(person instanceof User user){
-                        user.setScore(Integer.parseInt(data[3].trim()));
-                    }
-                    index++;
-                    
-                }else{
-                    if(person instanceof Developer developer){
-                        developer.setOptions(index2,Integer.parseInt(data[0].trim()));
-                    }else if(person instanceof User user){
-                        user.setOptions(index2,Integer.parseInt(data[0].trim()));
-                    }
-                        
-                    index2++;
+                if(data.length>2){
+                    result+=data[0]+"/n";
                 }
-                
-            
             }
             scan.close();//save the scan
         } catch (IOException e) {
             System.err.println(e);
+           
         }
+  
     }
 //        //Method with return and no parameter
 //    public static int countLine() {
@@ -214,23 +192,8 @@ public class StartManual extends javax.swing.JFrame {
     public StartManual() {
         initComponents();
         
-            
-    addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowActivated(WindowEvent e) {
-                System.out.println("JFrame is now focused!");
-              
-                
-              
-                //call the readfile method to update the array
-                readFile();
-                
-                
-                
-            }
-        });
         
-        readFile();//Connecting to the above, history storing
+       
 //        loadHistoryFromFile(); 
         // Load stored score history on startup
         
@@ -369,17 +332,7 @@ public class StartManual extends javax.swing.JFrame {
         String result = "Scores:\n";//prepare for the message print below
         for(int i = 0; i < persons.size(); i++){//for loop to get the score
             result+= persons.get(i).toString();
-            int[] options = new int[0];
-            if(persons.get(i) instanceof Developer developer){
-                     options = developer.getOptions();
-            }else if(persons.get(i) instanceof User user){
-                     options = user.getOptions();
-            }
-            for(int j=0;i<5;j++){
-                 result += options[j] + "/5\n";// add score to the result
-            }
-          
-           
+            readFile(result); 
         }
         javax.swing.JOptionPane.showMessageDialog(this, result);//printout the result in the dialog
         

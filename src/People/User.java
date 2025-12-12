@@ -39,6 +39,11 @@ public class User extends Person{
     public int[] getOptions(){
         return options;
     }
+
+  
+    public void setOptions(int[] x){
+        this.options=x;
+    }
     
     @Override
     public String toString(){
