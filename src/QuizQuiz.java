@@ -80,10 +80,10 @@ public QuizQuiz() {
                 System.out.println("JFrame is now focused!");
                 //add codde here
 
-                if(person instanceof Developer developer){
+                if(person instanceof Developer){
                     
-                         StartManual.writeFile(person.getName(), person.getExperience(), "developer");
-                }else if(person instanceof User user){
+                        StartManual.writeFile(person.getName(), person.getExperience(), "developer");
+                }else if(person instanceof User){
                     
                         StartManual.writeFile(person.getName(), person.getExperience(), "user");
                 }

@@ -142,7 +142,7 @@ public class StartManual extends javax.swing.JFrame {
         }
     }
     
-        public static void writeFile(int[] options){
+    public static void writeFile(int[] options){
         //write to the file. This is called in AddNew frame
         try{
             //creat the printwriter object
