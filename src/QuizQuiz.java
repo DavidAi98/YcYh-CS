@@ -1,9 +1,19 @@
+
+import People.Developer;
+import People.Person;
+import People.User;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 /*
-* QuizFrame.java with complete Javadoc and inline comments
+* QuizQuiz.java with complete Javadoc and inline comments
 */
 
 
@@ -22,7 +32,12 @@
  *
  * @author Lenovo
  */
-public class QuizFrame extends javax.swing.JFrame {
+public class QuizQuiz extends javax.swing.JFrame {
+    
+    
+    Person person = StartManual.getList().get(StartManual.NOP-1);
+
+    
 /** Index of the currently displayed question. */
 int index = 0;//essential to the question display
 /** Tracks the user's score across the quiz. */
@@ -53,8 +68,33 @@ char[] correctAnswers = {'A', 'B', 'C', 'A', 'A'};//the array for the correct an
 * Creates a new instance of QuizFrame and initializes UI components.
 * Also applies theme styling and loads the first question.
 */    
-public QuizFrame() {
+public QuizQuiz() {
+    
         initComponents();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                System.out.println("JFrame is now focused!");
+                //add codde here
+
+                if(person instanceof Developer){
+                        Developer pperson = ((Developer) person);
+                         StartManual.writeFile(pperson.getName(), pperson.getExperience(), pperson.getIdentity());
+                }else if(person instanceof User){
+                       User pperson = ((User) person);
+                        StartManual.writeFile(pperson.getName(), pperson.getExperience(), pperson.getIdentity());
+                }
+                
+               
+                
+                
+                
+                
+                
+                
+                
+            }
+        });
         displayQuestion();//not mentioned in the origin program, declared because of its not a button
     //Below is GUI, not important
 
@@ -285,7 +325,8 @@ displayQuestion();
 } else {
 // Quiz finished: show final result, save history, and disable inputs
 resultLabel.setText("Score: " + score + "/5 | Correct: A B C A A");
-ManualFrame.scoreHistory.add(score);
+StartManual.scoreHistory.add(score);
+
 saveScoreToFile(score,null);
 
 
@@ -306,7 +347,7 @@ javax.swing.JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + 
 */
     private void returnHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnHomeButtonActionPerformed
         // TODO add your handling code here:
-        new ManualFrame().setVisible(true);//These two lines are for frame changing
+        new StartManual().setVisible(true);//These two lines are for frame changing
         this.setVisible(false);
     }//GEN-LAST:event_returnHomeButtonActionPerformed
 
@@ -319,9 +360,8 @@ javax.swing.JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + 
 private void saveScoreToFile(int score,String feedback) {
     
 
-    try (java.io.FileWriter fw = new java.io.FileWriter("scoreHisitory.txt", true)) {
-//        String date = java.time.LocalDate.now().toString();
-//        String time = java.time.LocalTime.now().withSecond(0).toString();
+    try (FileWriter fw = new FileWriter("scoreHisitory.txt", true)) {
+
         fw.write(score + "||" + feedback +"");
 
     } catch (Exception e) {
@@ -347,20 +387,21 @@ private void saveScoreToFile(int score,String feedback) {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(QuizFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuizQuiz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(QuizFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuizQuiz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(QuizFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuizQuiz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(QuizFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuizQuiz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new QuizFrame().setVisible(true);
+                new QuizQuiz().setVisible(true);
             }
         });
     }

@@ -27,6 +27,19 @@ public class User extends Person{
         
     }
     
+    public void setScore(int score){
+        this.score = score;
+    }
+    public void setOptions(int i,int x){
+        this.options[i] = x;
+    }
+        public String getIdentity(){
+        return "user";
+    }
+    public int[] getOptions(){
+        return options;
+    }
+    
     @Override
     public String toString(){
         return super.toString()+" identity: user score:"+score;

@@ -3,6 +3,8 @@ import People.Developer;
 import People.Person;
 import People.User;
 
+import java.util.ArrayList;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -12,16 +14,17 @@ import People.User;
  *
  * @author ayc
  */
-public class BasicInfo extends javax.swing.JFrame {
+public class QuizInfo extends javax.swing.JFrame {
 
     public static String name;
     public static int experience;
-    public static Person person;
+    public ArrayList<Person> persons;
     /**
      * Creates new form BasicInfo
      */
-    public BasicInfo() {
+    public QuizInfo() {
         initComponents();
+        persons = StartManual.getList();
     }
 
     /**
@@ -122,12 +125,12 @@ public class BasicInfo extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if(StartFrame.type.equals("user")){
-                    person = new User(name,experience);
+        if(QuizFrame1.type.equals("user")){
+                    persons.add(new User(name,experience));
         }else{
-                    person = new Developer(name,experience);
+                    persons.add(new Developer(name,experience));
         }
-        new ManualFrame().setVisible(true);
+        new QuizQuiz().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -148,20 +151,21 @@ public class BasicInfo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BasicInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuizInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BasicInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuizInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BasicInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuizInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BasicInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QuizInfo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BasicInfo().setVisible(true);
+                new QuizInfo().setVisible(true);
             }
         });
     }

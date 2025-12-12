@@ -1,5 +1,6 @@
 
 import People.Developer;
+import People.Person;
 import People.User;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -7,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
@@ -30,14 +32,24 @@ import java.util.Scanner;
  *
  * @author Lenovo
  */
-public class ManualFrame extends javax.swing.JFrame {
+public class StartManual extends javax.swing.JFrame {
     
-    public static String[] names;
-    public static int[] experiences;
-    public static String[] identities;
-    public static int[][] options;
-    public static int[] scores;
+    private static ArrayList<Person> persons = null;
+    public static java.util.ArrayList<Integer> scoreHistory = new java.util.ArrayList<>();
+//Very impottant for storing the scores
+     private static final String HISTORY_FILE = "scoreHistory.txt";
+//Very important for the History File- can read and type in again even the program is shutted down
+    public static int NOP;
+    public int[] localOptions;
     
+    
+    public static ArrayList<Person> getList() {
+        if (persons == null) {
+            persons = new ArrayList<>();
+            System.out.println("Object list initialized!");
+        }
+        return persons;
+    }
 
 //    /**
 //* Loads quiz score history from the CSV file if it exists.
@@ -73,6 +85,7 @@ public class ManualFrame extends javax.swing.JFrame {
         int index2=0;
         File file = new File(HISTORY_FILE);
         if (!file.exists()) return;
+        
         try{
             Scanner scan = new Scanner(file);
             //use while loop and hasNextLIne method to go through each line and store the data to the array
@@ -81,18 +94,28 @@ public class ManualFrame extends javax.swing.JFrame {
                 
                 //split each line of the file and store as an array
                 String[] data=scan.nextLine().split("||");
-            
+                
+                Person person;
+                
                 if(data.length>1){
                     index2=0;
+                    person = persons.get(index);
                     //store the data to corresponding array
-                    names[index] = data[0];
-                    experiences[index] = Integer.parseInt(data[1].trim());
-                    identities[index] = data[2];
-                    scores[index] = Integer.parseInt(data[3].trim());
           
+                    if(person instanceof Developer developer){
+                        developer.setScore(Integer.parseInt(data[3].trim()));
+                    }else if(person instanceof User user){
+                        user.setScore(Integer.parseInt(data[3].trim()));
+                    }
                     index++;
+                    
                 }else{
-                    options[index][index2]=Integer.parseInt(data[0].trim());
+                    if(person instanceof Developer developer){
+                        developer.setOptions(index2,Integer.parseInt(data[0].trim()));
+                    }else if(person instanceof User user){
+                        user.setOptions(index2,Integer.parseInt(data[0].trim()));
+                    }
+                        
                     index2++;
                 }
                 
@@ -103,44 +126,45 @@ public class ManualFrame extends javax.swing.JFrame {
             System.err.println(e);
         }
     }
-        //Method with return and no parameter
-    public static int countLine() {
-        //count the lines of the file
-        //define and initialize the count varible
-        int linecount = 0;
-        try {
-            Scanner scan = new Scanner(new File(HISTORY_FILE));
-            //use the while loop and hasNextLine method to count each line
-            while (scan.hasNextLine()) {
-                String[] data=scan.nextLine().split("||");
-                if(data.length>1)
-                    linecount++;
-                scan.nextLine();
-            }
-            //save the scan
-            scan.close();
-        } catch (IOException e) {
-            System.err.println(e);
-        }
-        //return the linecount number
-        return linecount;
-}
+//        //Method with return and no parameter
+//    public static int countLine() {
+//        //count the lines of the file
+//        //define and initialize the count varible
+//        int linecount = 0;
+//        try {
+//            Scanner scan = new Scanner(new File(HISTORY_FILE));
+//            //use the while loop and hasNextLine method to count each line
+//            while (scan.hasNextLine()) {
+//                String[] data=scan.nextLine().split("||");
+//                if(data.length>1)
+//                    linecount++;
+//                scan.nextLine();
+//            }
+//            //save the scan
+//            scan.close();
+//        } catch (IOException e) {
+//            System.err.println(e);
+//        }
+//        //return the linecount number
+//        return linecount;
+//}
     
      //the method with parameters
-    public static void writeFile1(String name,int experience,String identity,int score){
+    public static void writeFile(String name,int experience,String identity){
         //write to the file. This is called in AddNew frame
         try{
             //creat the printwriter object
             PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
             //write the information to the file and round the double to 2 decimal point
-            writer.printf("%s||%d||%s||%d||%n",name,experience,identity,score);
+            writer.printf("%s||%d||%s%n",name,experience,identity);
 
             writer.close();//save the writer
         }catch(IOException ioee){
             System.err.println(ioee);
         }
     }
-        public static void writeFile2(int[] options){
+    
+        public static void writeFile(int[] options){
         //write to the file. This is called in AddNew frame
         try{
             //creat the printwriter object
@@ -154,17 +178,31 @@ public class ManualFrame extends javax.swing.JFrame {
             System.err.println(ioee);
         }
     }
+        public static void writeFile(int score){
+        //write to the file. This is called in AddNew frame
+        try{
+            //creat the printwriter object
+            PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
+            //write the information to the file and round the double to 2 decimal point
+           
+            writer.println(score);
+
+            writer.close();//save the writer
+        }catch(IOException ioee){
+            System.err.println(ioee);
+        }
+    }
     
     /**
     * Stores the quiz scores from past sessions. Each score represents the
     * number of correct answers out of 5.
     */
-    public static java.util.ArrayList<Integer> scoreHistory = new java.util.ArrayList<>();//Very impottant for storing the scores
+    
 /**
 * File used for storing/reading quiz history so data is saved even when
 * the program closes.
 */
-    private static final String HISTORY_FILE = "scoreHistory.txt";//Very important for the History File- can read and type in again even the program is shutted down
+   
     
 
 /**
@@ -173,7 +211,7 @@ public class ManualFrame extends javax.swing.JFrame {
     /**
      * Creates new form HomeFrame
      */
-    public ManualFrame() {
+    public StartManual() {
         initComponents();
         
             
@@ -181,16 +219,7 @@ public class ManualFrame extends javax.swing.JFrame {
             @Override
             public void windowActivated(WindowEvent e) {
                 System.out.println("JFrame is now focused!");
-                StartFrame.NOP++;
-               
-                
-                //set the size of each array with the countLine method
-                //run each time the frame is opened to update the array
-                names = new String[countLine()];
-                experiences = new int[countLine()];
-                identities = new String[countLine()];
-                scores = new int[countLine()];
-                options= new int[countLine()][5];
+              
                 
               
                 //call the readfile method to update the array
@@ -324,7 +353,8 @@ public class ManualFrame extends javax.swing.JFrame {
 */
     private void startQuizButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startQuizButtonActionPerformed
         // TODO add your handling code here:
-        new QuizFrame().setVisible(true);//These two lines are for frame changing
+        NOP++;
+        new QuizFrame1().setVisible(true);//These two lines are for frame changing
         this.setVisible(false);
     }//GEN-LAST:event_startQuizButtonActionPerformed
 /**
@@ -333,13 +363,23 @@ public class ManualFrame extends javax.swing.JFrame {
 */
     private void reviewHistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewHistoryButtonActionPerformed
         // TODO add your handling code here:
-        if(scoreHistory.isEmpty()){//if there's nothing in the text stored before
+        if(!scoreHistory.isEmpty()){//if there's nothing in the text stored before
         javax.swing.JOptionPane.showMessageDialog(this, "No quiz history yet!");//use dialog to print out the message
         } else {
-        String result = "Your Scores:\n";//prepare for the message print below
-        for(int i = 0; i < scoreHistory.size(); i++){//for loop to get the score
-            int s = scoreHistory.get(i);
-            result += s + "/5\n";// add score to the result
+        String result = "Scores:\n";//prepare for the message print below
+        for(int i = 0; i < persons.size(); i++){//for loop to get the score
+            result+= persons.get(i).toString();
+            int[] options = new int[0];
+            if(persons.get(i) instanceof Developer developer){
+                     options = developer.getOptions();
+            }else if(persons.get(i) instanceof User user){
+                     options = user.getOptions();
+            }
+            for(int j=0;i<5;j++){
+                 result += options[j] + "/5\n";// add score to the result
+            }
+          
+           
         }
         javax.swing.JOptionPane.showMessageDialog(this, result);//printout the result in the dialog
         
@@ -348,6 +388,7 @@ public class ManualFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
         new Feedback().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -369,21 +410,27 @@ public class ManualFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManualFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StartManual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManualFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StartManual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManualFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StartManual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManualFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StartManual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManualFrame().setVisible(true);
+                new StartManual().setVisible(true);
             }
         });
     }

@@ -9,7 +9,7 @@ package People;
  * @author ayc
  */
 public class Developer extends Person{
-        private int[] options;
+        private int[] options = new int[5];
     private int score;
     private String identity;
     
@@ -27,6 +27,19 @@ public class Developer extends Person{
         
     }
     
+    public void setScore(int score){
+        this.score = score;
+    }
+    
+    public void setOptions(int i,int x){
+        this.options[i] = x;
+    }
+    public String getIdentity(){
+        return "developer";
+    }
+    public int[] getOptions(){
+        return options;
+    }
     @Override
     public String toString(){
         return super.toString()+" identity: developer score:"+score;

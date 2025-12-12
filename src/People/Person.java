@@ -16,7 +16,12 @@ public class Person {
         this.name = name;
         this.experience = experience;
     }
-    
+    public String getName(){
+        return name;
+    }
+    public int getExperience(){
+        return experience;
+    }
     public String toString(){
         return "Name: "+name+" Experience: "+experience;
     }
