@@ -11,10 +11,93 @@ public class Feedback extends javax.swing.JFrame {
 
     /**
      * Creates new form Feedback
+     * @param userChoices
      */
-    public Feedback() {
+    public Feedback(int[] userChoices) {
         initComponents();
+        showFeedback(userChoices);
     }
+
+private void showFeedback(int[] userChoices) {
+
+    StringBuilder sb = new StringBuilder();
+
+    for (int i = 0; i < userChoices.length; i++) {
+        sb.append("Question ").append(i + 1).append(":\n");
+        sb.append(feedback[i][userChoices[i]]);
+        sb.append("\n\n");
+    }
+
+    feedbackArea.setText(sb.toString());
+    feedbackArea.setCaretPosition(0); // scroll to top
+    feedbackArea.setEditable(false);
+    feedbackArea.setLineWrap(true);
+    feedbackArea.setWrapStyleWord(true);
+
+}
+    
+String[][] feedback = {
+    {
+        "Participating online offers many conveniences and opportunities, but learning how to protect your personal information is important.",
+        "It sounds like you’re already thinking about curating your digital identity carefully.",
+        "Being cautious online is wise, especially when privacy is important to you."
+    },
+    {
+        "Social media is great for staying connected, but be mindful of who owns the data you share.",
+        "Mobile banking and shopping are convenient, but protecting financial information is essential.",
+        "Building a personal brand online can be powerful — just make sure it reflects who you truly are."
+    },
+    {
+        "Cyberbullying and online harassment are serious issues — reach out for help if needed.",
+        "Identity theft is scary, but strong privacy settings can help protect you.",
+        "Viruses can often be avoided by practicing good digital safety habits."
+    },
+    {
+        "Personalized content is helpful, but controlling your privacy settings is important.",
+        "Convenience often relies on cookies — knowing how they work helps protect your data.",
+        "Finding a balance between privacy and convenience is often the best approach."
+    },
+    {
+        "Once information is online, it’s hard to remove — managing your digital footprint matters.",
+        "Actively managing your online presence helps build a positive digital identity.",
+        "Learning more about digital safety can build confidence online."
+    },
+    {
+        "Public wi-fi can be used safely with the right precautions.",
+        "Online banking on public wi-fi can be risky without proper security.",
+        "Using trusted networks and avoiding sensitive transactions is a smart choice."
+    },
+    {
+        "Photos contain metadata that may reveal personal information.",
+        "Sharing photos is fun — just stay aware of what you’re revealing.",
+        "Turning off geotagging is a great way to protect your privacy."
+    },
+    {
+        "There are many online tools available — exploring them can be rewarding.",
+        "Despite criticism, many digital tools offer meaningful connections.",
+        "Using blogs and wikis responsibly can help showcase your work."
+    },
+    {
+        "Online dating is common, but staying cautious is important.",
+        "Taking time to get to know someone online is a smart move.",
+        "Skepticism online can help keep you safe."
+    },
+    {
+        "Texting creates digital records — be mindful of what you send.",
+        "Using texts thoughtfully shows good digital awareness.",
+        "Texting mistakes happen, so caution is always wise."
+    },
+    {
+        "Copyright laws differ, but sharing copyrighted content can still be illegal.",
+        "Creative Commons and legal alternatives offer safer options.",
+        "Respecting copyright helps ensure creators get paid."
+    },
+    {
+        "Gaming is about balance — many gamers live healthy lives.",
+        "Gaming isn’t always the problem, but moderation matters.",
+        "Online games can be creative and intellectually engaging when balanced."
+    }
+};
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -25,57 +108,38 @@ public class Feedback extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        scrollPane = new javax.swing.JScrollPane();
+        feedbackArea = new javax.swing.JTextArea();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        feedbackArea.setColumns(20);
+        feedbackArea.setRows(5);
+        scrollPane.setViewportView(feedbackArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Feedback.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Feedback.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Feedback.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Feedback.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Feedback().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea feedbackArea;
+    private javax.swing.JScrollPane scrollPane;
     // End of variables declaration//GEN-END:variables
 }
