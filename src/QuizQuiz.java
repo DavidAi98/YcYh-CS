@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -33,40 +34,97 @@ import java.io.PrintWriter;
  * @author Lenovo
  */
 public class QuizQuiz extends javax.swing.JFrame {
-    
+    private int currentQuestion = 0;
+
+   // Stores 0=A, 1=B, 2=C
+   private int[] userChoices = new int[12];
+
+
     
     Person person = StartManual.getList().get(StartManual.NOP-1);
 
-    int[] scores = new int[5];
-    int index2=0;
-    
-    
-/** Index of the currently displayed question. */
-int index = 0;//essential to the question display
-/** Tracks the user's score across the quiz. */
-int score = 0;//essential to the score calculate
 /** Array of quiz questions shown on screen. */
-String[] questions = {//Array for the question Label
-    "1. What is sustainable development?",
-    "2. Which action best reduces carbon footprint?",
-    "3. Which resource is renewable?",
-    "4. What is the purpose of recycling?",
-    "5. Which agreement focuses on climate change?"
+String[] questions = {
+    "1. My digital identity is…",
+    "2. The best thing about being online is…",
+    "3. When interacting online, my biggest worry is…",
+    "4. When it comes to online convenience vs. privacy, I lean toward…",
+    "5. I think managing my online identity is…",
+    "6. When I'm on public wi-fi…",
+    "7. Uploading photos…",
+    "8. I think blogs and wikis are…",
+    "9. Would you ever consider dating someone you met online?",
+    "10. Do you think texting is the same as talking on the phone?",
+    "11. Is filesharing or downloading pirated media ok?",
+    "12. Online gaming is…"
 };
-/** 2D array storing answer options for each question. */
-String[][] options = {//2D-Array for the question choices
-    {"A. Only take stuffs we need without harming future generations", "B. Use all resources now", "C. I don't care, moement right now is reality, future is too far for me"},
-    {"A. Drive alone daily", "B. Use public transit / bike", "C. Throw waste anywhere"},
-    {"A. Coal", "B. Nuclear energy", "C. Solar energy"},
-    {"A. Reduce waste", "B. Increase pollution", "C. Create more landfill"},
-    {"A. Kyoto Protocol", "B. NATO Treaty", "C. Geneva Convention"}
-};
-/** Correct answers corresponding to each question. */
-char[] correctAnswers = {'A', 'B', 'C', 'A', 'A'};//the array for the correct answers
 
-    /**
-     * Creates new form QuizFrame
-     */
+/** 2D array storing answer options for each question. */
+String[][] choices = {
+    {
+        "…not something I worry about. I’m online every day and haven’t had any trouble.",
+        "…definitely a big part of my life, but I monitor it carefully.",
+        "…non-existent. I’m a really private person."
+    },
+    {
+        "…social media.",
+        "…the convenience of banking, shopping, and paying from my phone.",
+        "…keeping up my personal brand."
+    },
+    {
+        "…cyberbullying.",
+        "…identity theft and keeping my personal information private.",
+        "…computer viruses."
+    },
+    {
+        "…keeping my search data and online profiles private.",
+        "…convenience. I like sites remembering my profile.",
+        "…a middle ground between convenience and privacy."
+    },
+    {
+        "…a piece of cake. I can delete things later.",
+        "…manageable, but I worry I’ve missed something.",
+        "…really overwhelming."
+    },
+    {
+        "…I avoid using public wi-fi.",
+        "…I access online banking.",
+        "…I use legit wi-fi and avoid sharing personal info."
+    },
+    {
+        "…is risky because photos contain personal info.",
+        "…is fun and I love sharing pictures.",
+        "…is good if geotagging is turned off."
+    },
+    {
+        "…creatures from a sci-fi movie.",
+        "…cluttering the web with meaningless information.",
+        "…a great way to collaborate and showcase work."
+    },
+    {
+        "Yes, why not?",
+        "Maybe, but I’d want to learn more first.",
+        "Not a chance."
+    },
+    {
+        "Sure! I text more than I call.",
+        "Not really — for personal things I prefer calls.",
+        "Not at all! Texting can be risky."
+    },
+    {
+        "Yes. Everyone does it.",
+        "Not really. It’s still illegal.",
+        "Absolutely not. Artists need to get paid."
+    },
+    {
+        "…for socially awkward geeks.",
+        "…a gateway to online addiction.",
+        "…great and intellectually challenging."
+    }
+};
+
+
+
 /**
 * Creates a new instance of QuizFrame and initializes UI components.
 * Also applies theme styling and loads the first question.
@@ -149,14 +207,14 @@ public QuizQuiz() {
 * Displays the current question and its answer choices on screen.
 * Resets input field and clears result label.
 */
-private void displayQuestion() {//Can see from the Design page, displaying questions and choices
-    questionLabel.setText(questions[index]);
-    optionALabel.setText(options[index][0]);
-    optionBLabel.setText(options[index][1]);
-    optionCLabel.setText(options[index][2]);
+private void displayQuestion() {
+    questionLabel.setText(questions[currentQuestion]);
+    optionALabel.setText("A. " + choices[currentQuestion][0]);
+    optionBLabel.setText("B. " + choices[currentQuestion][1]);
+    optionCLabel.setText("C. " + choices[currentQuestion][2]);
     answerTextField.setText("");
-    resultLabel.setText("");
 }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -172,7 +230,6 @@ private void displayQuestion() {//Can see from the Design page, displaying quest
         optionCLabel = new javax.swing.JLabel();
         answerTextField = new javax.swing.JTextField();
         confirmButton = new javax.swing.JButton();
-        resultLabel = new javax.swing.JLabel();
         returnHomeButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -199,8 +256,6 @@ private void displayQuestion() {//Can see from the Design page, displaying quest
                 confirmButtonActionPerformed(evt);
             }
         });
-
-        resultLabel.setText("Results");
 
         returnHomeButton.setText("Return Home");
         returnHomeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -230,21 +285,18 @@ private void displayQuestion() {//Can see from the Design page, displaying quest
                         .addComponent(optionBLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(86, 86, 86))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 676, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(returnHomeButton)
                         .addGap(57, 57, 57))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39)
-                                .addComponent(answerTextField))
-                            .addComponent(resultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addComponent(answerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(confirmButton)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(433, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,9 +314,7 @@ private void displayQuestion() {//Can see from the Design page, displaying quest
                     .addComponent(answerTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(confirmButton)
                     .addComponent(jLabel1))
-                .addGap(39, 39, 39)
-                .addComponent(resultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(139, 139, 139)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(returnHomeButton)
                     .addComponent(jLabel2))
@@ -288,60 +338,36 @@ confirmButtonActionPerformed(null);
 * @param evt Button click event (may be null when called from Enter key)
 */
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-String text = answerTextField.getText();
-if (text == null || text.trim().isEmpty()) {
-// Prompt user to enter an answer instead of silently returning.
-javax.swing.JOptionPane.showMessageDialog(this, "Please enter A, B, or C.");
-return;
-}
 
 
-// Normalize input and validate (only first character matters).
-char userAnswer = Character.toUpperCase(text.trim().charAt(0));
-if (userAnswer != 'A' && userAnswer != 'B' && userAnswer != 'C') {
-javax.swing.JOptionPane.showMessageDialog(this, "Invalid answer. Please type A, B, or C.");
-return;
-}
+    String input = answerTextField.getText().trim().toUpperCase();
 
+    if (input.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter A, B, or C.");
+        return;
+    }
 
-// Defensive: ensure index is within bounds before accessing arrays.
-if (index < 0 || index >= correctAnswers.length) {
-// This should not normally happen, but guard against misuse.
-javax.swing.JOptionPane.showMessageDialog(this, "Quiz state invalid. Please return home and try again.");
-return;
-}
+    char answer = input.charAt(0);
 
+    if (answer < 'A' || answer > 'C') {
+        JOptionPane.showMessageDialog(this, "Only A, B, or C is allowed.");
+        return;
+    }
 
-// Update score if answer is correct.
-if (userAnswer == correctAnswers[index]) {
-score++;
-}
+    // Save answer
+    userChoices[currentQuestion] = answer - 'A';
 
+    currentQuestion++;
 
-// Move to the next question.
-index++;
+    if (currentQuestion < questions.length) {
+        displayQuestion();
+    } else {
+        // Finished → go to feedback frame
+        Feedback fb = new Feedback(userChoices);
+        fb.setVisible(true);
+        this.dispose();
+    }
 
-
-if (index < questions.length) {
-// Display next question normally.
-displayQuestion();
-} else {
-// Quiz finished: show final result, save history, and disable inputs
-resultLabel.setText("Score: " + score + "/5 | Correct: A B C A A");
-StartManual.scoreHistory.add(score);
-
-saveScoreToFile(score);
-
-
-
-// Prevent further input to avoid IndexOutOfBounds on repeated clicks.
-confirmButton.setEnabled(false);
-answerTextField.setEnabled(false);
-
-
-// Optionally suggest user to return or restart.
-javax.swing.JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + score + "/5");
-}
 
     }//GEN-LAST:event_confirmButtonActionPerformed
 /**
@@ -351,7 +377,7 @@ javax.swing.JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + 
 */
     private void returnHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnHomeButtonActionPerformed
         // TODO add your handling code here:
-        saveScoreToPerson(person,scores);
+        
         new StartManual().setVisible(true);//These two lines are for frame changing
         this.setVisible(false);
     }//GEN-LAST:event_returnHomeButtonActionPerformed
@@ -362,33 +388,8 @@ javax.swing.JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + 
 *
 * @param score Score achieved in the quiz
 */
-private void saveScoreToFile(int score) {
-    
-    
 
-    scores[index2] = score;
-    index2++;
-    
-    try (FileWriter fw = new FileWriter("scoreHisitory.txt", true)) {
 
-        fw.write(score);
-
-    } catch (Exception e) {
-        
-        System.out.println("Error writing to history: " + e.getMessage());
-
-    }
-}
-private void saveScoreToPerson(Person person, int[] scores){
-                if(person instanceof Developer developer){
-                         developer.getScores().setOptions(scores);
-                         StartManual.writeFile(person.getName(), person.getExperience(), "developer");
-                }else if(person instanceof User user){
-                        user.getScores().setOptions(scores);
-                        StartManual.writeFile(person.getName(), person.getExperience(), "user");
-                }
-                    
-}
 
 
     /**
@@ -460,7 +461,6 @@ class Hover extends java.awt.event.MouseAdapter {
     private javax.swing.JLabel optionBLabel;
     private javax.swing.JLabel optionCLabel;
     private javax.swing.JLabel questionLabel;
-    private javax.swing.JLabel resultLabel;
     private javax.swing.JButton returnHomeButton;
     // End of variables declaration//GEN-END:variables
 }
