@@ -241,7 +241,6 @@ public class StartManual extends javax.swing.JFrame {
         startQuizButton = new javax.swing.JButton();
         reviewHistoryButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -261,9 +260,6 @@ public class StartManual extends javax.swing.JFrame {
         });
 
         jLabel1.setText("Are you 'green' enough?----    Quiz Check App");
-
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel2.setText("Yunhao Sun");
 
         jButton1.setText("Feedback");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -288,10 +284,6 @@ public class StartManual extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(179, 179, 179))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,9 +295,7 @@ public class StartManual extends javax.swing.JFrame {
                     .addComponent(reviewHistoryButton)
                     .addComponent(startQuizButton)
                     .addComponent(jButton1))
-                .addGap(139, 139, 139)
-                .addComponent(jLabel2)
-                .addContainerGap())
+                .addGap(159, 159, 159))
         );
 
         pack();
@@ -417,7 +407,6 @@ class HoverEffect extends java.awt.event.MouseAdapter {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton reviewHistoryButton;
     private javax.swing.JButton startQuizButton;
     // End of variables declaration//GEN-END:variables
