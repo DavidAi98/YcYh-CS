@@ -381,10 +381,10 @@ private void saveScoreToFile(int score) {
 }
 private void saveScoreToPerson(Person person, int[] scores){
                 if(person instanceof Developer developer){
-                         developer.setOptions(scores);
+                         developer.getScores().setOptions(scores);
                          StartManual.writeFile(person.getName(), person.getExperience(), "developer");
                 }else if(person instanceof User user){
-                        user.setOptions(scores);
+                        user.getScores().setOptions(scores);
                         StartManual.writeFile(person.getName(), person.getExperience(), "user");
                 }
                     

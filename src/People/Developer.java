@@ -9,39 +9,33 @@ package People;
  * @author ayc
  */
 public class Developer extends Person{
-        private int[] options = new int[5];
-    private int score;
+
     private String identity;
+    private Scores scores;
     
     public Developer(String name,int experience,int[] options,int score){
         super(name,experience);
-        this.options = options;
-        this.score = score;
+        this.scores = new Scores(options,score);
         this.identity = "developer";
     }
     public Developer(String name,int experience){
         super(name,experience);
         this.identity = "developer";
-        this.options = new int[0];
-        this.score = -1;
+        this.scores = new Scores(null,-1);
         
     }
-    
-    public void setScore(int score){
-        this.score = score;
+   
+    public Scores getScores(){
+        return scores;
     }
-    
-    public void setOptions(int[] x){
-        this.options=x;
-    }
+
     public String getIdentity(){
         return "developer";
     }
-    public int[] getOptions(){
-        return options;
-    }
+
+
     @Override
     public String toString(){
-        return super.toString()+" identity: developer score:"+score;
+        return super.toString()+" identity: developer score:"+scores.getScore();
     }
 }
