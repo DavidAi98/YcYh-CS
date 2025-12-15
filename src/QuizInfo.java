@@ -23,9 +23,16 @@ public class QuizInfo extends javax.swing.JFrame {
      * Creates new form BasicInfo
      */
     public QuizInfo() {
-        initComponents();
-        persons = StartManual.getList();
-    }
+    initComponents();
+    persons = StartManual.getList();
+
+    UITheme.applyFrame(this);
+
+    UITheme.styleButton(jButton1); // Next
+    UITheme.styleLabel(jLabel1);
+    UITheme.styleLabel(jLabel2);
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -171,7 +178,7 @@ public class QuizInfo extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new QuizInfo().setVisible(true);
-            }
+            }   
         });
     }
 
