@@ -118,7 +118,9 @@ public class QuizInfo extends javax.swing.JFrame {
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
-        experience = Integer.parseInt(jTextField2.getText());
+            experience = Integer.parseInt(jTextField2.getText());
+
+
         this.revalidate();
         this.repaint();
     }//GEN-LAST:event_jTextField2ActionPerformed
@@ -127,9 +129,12 @@ public class QuizInfo extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(QuizFrame1.type.equals("user")){
                     persons.add(new User(name,experience));
+                    StartManual.writeFile(name,experience, "user");
         }else{
                     persons.add(new Developer(name,experience));
+                    StartManual.writeFile(name,experience, "developer");
         }
+     
         new QuizQuiz().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed

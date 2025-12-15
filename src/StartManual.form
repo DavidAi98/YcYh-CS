@@ -31,8 +31,6 @@
                       <Component id="startQuizButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="reviewHistoryButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -49,7 +47,6 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="reviewHistoryButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="startQuizButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="159" max="-2" attributes="0"/>
           </Group>
@@ -77,14 +74,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Are you &apos;green&apos; enough?----    Quiz Check App"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Feedback"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

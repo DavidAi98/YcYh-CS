@@ -132,30 +132,6 @@ String[][] choices = {
 public QuizQuiz() {
     
         initComponents();
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowActivated(WindowEvent e) {
-                System.out.println("JFrame is now focused!");
-                //add codde here
-
-                if(person instanceof Developer){
-                    
-                        StartManual.writeFile(person.getName(), person.getExperience(), "developer");
-                }else if(person instanceof User){
-                    
-                        StartManual.writeFile(person.getName(), person.getExperience(), "user");
-                }
-                
-               
-                
-                
-                
-                
-                
-                
-                
-            }
-        });
         displayQuestion();//not mentioned in the origin program, declared because of its not a button
     //Below is GUI, not important
 
@@ -203,6 +179,21 @@ public QuizQuiz() {
     
         
     }
+private void storeChoicesToPerson(Person person,int[] options){
+    
+    if(person instanceof Developer developer){
+        
+        developer.getScores().setOptions(options);
+        
+        StartManual.writeFile(developer.getScores().getScore());
+        
+    }else if(person instanceof User user){
+        
+        user.getScores().setOptions(options);
+        
+        StartManual.writeFile(user.getScores().getScore());
+    }
+}
 /**
 * Displays the current question and its answer choices on screen.
 * Resets input field and clears result label.
@@ -232,7 +223,6 @@ private void displayQuestion() {
         confirmButton = new javax.swing.JButton();
         returnHomeButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -257,7 +247,7 @@ private void displayQuestion() {
             }
         });
 
-        returnHomeButton.setText("Return Home");
+        returnHomeButton.setText("Feedback");
         returnHomeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 returnHomeButtonActionPerformed(evt);
@@ -265,8 +255,6 @@ private void displayQuestion() {
         });
 
         jLabel1.setText("Your Answer？ （A, B, or C)");
-
-        jLabel2.setText("cool");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -285,8 +273,7 @@ private void displayQuestion() {
                         .addComponent(optionBLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(86, 86, 86))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(returnHomeButton)
                         .addGap(57, 57, 57))
                     .addGroup(layout.createSequentialGroup()
@@ -315,9 +302,7 @@ private void displayQuestion() {
                     .addComponent(confirmButton)
                     .addComponent(jLabel1))
                 .addGap(139, 139, 139)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(returnHomeButton)
-                    .addComponent(jLabel2))
+                .addComponent(returnHomeButton)
                 .addContainerGap(65, Short.MAX_VALUE))
         );
 
@@ -356,16 +341,14 @@ confirmButtonActionPerformed(null);
 
     // Save answer
     userChoices[currentQuestion] = answer - 'A';
+    
 
     currentQuestion++;
 
     if (currentQuestion < questions.length) {
         displayQuestion();
-    } else {
-        // Finished → go to feedback frame
-        Feedback fb = new Feedback(userChoices);
-        fb.setVisible(true);
-        this.dispose();
+    }else{
+        JOptionPane.showMessageDialog(this,"No question left.");
     }
 
 
@@ -377,9 +360,15 @@ confirmButtonActionPerformed(null);
 */
     private void returnHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnHomeButtonActionPerformed
         // TODO add your handling code here:
+ 
+//        StartManual.writeFile(userChoices);
+//        storeChoicesToPerson(person,userChoices);  
+//        returnHomeButton.setEnabled(false);
+// 
+        new Feedback(userChoices).setVisible(true);
+        this.dispose();
         
-        new StartManual().setVisible(true);//These two lines are for frame changing
-        this.setVisible(false);
+        
     }//GEN-LAST:event_returnHomeButtonActionPerformed
 
 /**
@@ -456,7 +445,6 @@ class Hover extends java.awt.event.MouseAdapter {
     private javax.swing.JTextField answerTextField;
     private javax.swing.JButton confirmButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel optionALabel;
     private javax.swing.JLabel optionBLabel;
     private javax.swing.JLabel optionCLabel;

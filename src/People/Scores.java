@@ -9,7 +9,7 @@ package People;
  * @author ayc
  */
 public class Scores {
-    private int[] options = new int[5];
+    private int[] options = new int[12];
     private int score;
     
     public Scores(int[] options,int score){
@@ -34,6 +34,7 @@ public class Scores {
         this.options=x;
     }
     public int getScore(){
+        calScores();
         return score;
     }
     
