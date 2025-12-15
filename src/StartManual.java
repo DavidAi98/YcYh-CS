@@ -192,7 +192,7 @@ public class StartManual extends javax.swing.JFrame {
             PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
             //write the information to the file and round the double to 2 decimal point
            
-            writer.printf("%d,,no,,no%n",s);
+            writer.printf("%s,,no,,no%n",s);
 
             writer.close();//save the writer
         }catch(IOException ioee){
