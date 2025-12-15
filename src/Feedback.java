@@ -20,18 +20,32 @@ public class Feedback extends javax.swing.JFrame {
      */
     public Feedback(int[] userChoices) {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(224, 242, 221)); // 背景浅绿
+        java.awt.Color leafGreen = new java.awt.Color(69, 132, 73); // 深叶绿
+        
+        feedbackArea.setBackground(new java.awt.Color(245, 255, 245));
+        feedbackArea.setForeground(leafGreen);
+        feedbackArea.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 16));
+        feedbackArea.setBorder(javax.swing.BorderFactory.createLineBorder(leafGreen, 2, true));
+
+        jButton1.setBackground(new java.awt.Color(250, 250, 245));
+        jButton1.setForeground(leafGreen);
+        jButton1.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 16));
+        jButton1.setFocusPainted(false);
         showFeedback(userChoices);
     }
 
 private void showFeedback(int[] userChoices) {
 
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder("--- Your Detailed Feedback ---\n\n");
+    StringBuilder fileOutput = new StringBuilder();
 
     for (int i = 0; i < userChoices.length; i++) {
+        String currentFeedback = feedback[i][userChoices[i]];
         sb.append("Question ").append(i + 1).append(":\n");
-        sb.append(feedback[i][userChoices[i]]);
-        StartManual.writeFile(feedback[i][userChoices[i]]);
+        sb.append(currentFeedback);
         sb.append("\n\n");
+        fileOutput.append("Feedback Q").append(i + 1).append(": ").append(currentFeedback).append(",,");
     }
 
     feedbackArea.setText(sb.toString());
@@ -39,6 +53,7 @@ private void showFeedback(int[] userChoices) {
     feedbackArea.setEditable(false);
     feedbackArea.setLineWrap(true);
     feedbackArea.setWrapStyleWord(true);
+    StartManual.writeFile(fileOutput.toString());
 
 }
     

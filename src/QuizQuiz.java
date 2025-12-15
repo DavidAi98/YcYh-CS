@@ -39,9 +39,10 @@ public class QuizQuiz extends javax.swing.JFrame {
    // Stores 0=A, 1=B, 2=C
    private int[] userChoices = new int[12];
 
+   Person person;
 
     
-    Person person = StartManual.getList().get(StartManual.NOP-1);
+    
 
 /** Array of quiz questions shown on screen. */
 String[] questions = {
@@ -121,6 +122,8 @@ String[][] choices = {
         "…a gateway to online addiction.",
         "…great and intellectually challenging."
     }
+        
+        
 };
 
 
@@ -132,6 +135,22 @@ String[][] choices = {
 public QuizQuiz() {
     
         initComponents();
+        int personIndex = StartManual.NOP - 1;
+        java.util.List<Person> personList = StartManual.getList();
+
+        if (personList != null && personIndex >= 0 && personList.size() > personIndex) {
+            person = personList.get(personIndex);
+        } else {
+        // Handle the error gracefully if no user is found
+            person = null; 
+            JOptionPane.showMessageDialog(this, 
+            "Error: Could not load user profile. Please restart or create a new user.", 
+            "Fatal Error", 
+            JOptionPane.ERROR_MESSAGE);
+        // Disable UI elements to prevent further interaction
+        confirmButton.setEnabled(false);
+        answerTextField.setEnabled(false);
+    }
         displayQuestion();//not mentioned in the origin program, declared because of its not a button
     //Below is GUI, not important
 
@@ -348,7 +367,16 @@ confirmButtonActionPerformed(null);
     if (currentQuestion < questions.length) {
         displayQuestion();
     }else{
-        JOptionPane.showMessageDialog(this,"No question left.");
+        // All questions answered (currentQuestion is 12)
+        // 1. Inform user
+        JOptionPane.showMessageDialog(this, "Quiz finished! Click the 'Feedback' button to see your results and save.");
+        
+        // 2. Disable the confirmation UI
+        confirmButton.setEnabled(false);
+        answerTextField.setEnabled(false);
+        
+        // 3. Highlight the next action (Feedback button) if needed
+        returnHomeButton.requestFocusInWindow();
     }
 
 
@@ -361,12 +389,17 @@ confirmButtonActionPerformed(null);
     private void returnHomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnHomeButtonActionPerformed
         // TODO add your handling code here:
  
-//        StartManual.writeFile(userChoices);
-//        storeChoicesToPerson(person,userChoices);  
-//        returnHomeButton.setEnabled(false);
-// 
+        if (currentQuestion < questions.length) {
+            JOptionPane.showMessageDialog(this,"Please answer all the questions");
+
+            return; // Stops the method here, preventing the Feedback frame from opening
+        }
+        StartManual.writeFile(userChoices);
+        storeChoicesToPerson(person,userChoices);  
+        returnHomeButton.setEnabled(false);
+ 
         new Feedback(userChoices).setVisible(true);
-        this.dispose();
+        this.setVisible(false);
         
         
     }//GEN-LAST:event_returnHomeButtonActionPerformed

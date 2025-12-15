@@ -39,7 +39,7 @@ public class StartManual extends javax.swing.JFrame {
     private static final String HISTORY_FILE = "scoreHistory.txt";
 //Very important for the History File- can read and type in again even the program is shutted down
     public static int NOP;
-   
+    
     
     public static ArrayList<Person> getList() {
         if (persons == null) {
@@ -77,11 +77,12 @@ public class StartManual extends javax.swing.JFrame {
 //}
     
         //Method with no return and parameter
-    public static void readFile(String result){
+    public static String readFile(){
         //initialize and define the index counting varible
         int index = 0;
+        StringBuilder result = new StringBuilder("\nHistory:\n");
         File file = new File(HISTORY_FILE);
-        if (!file.exists()) return;
+        if (!file.exists()) return "No score history file found.";
         
         try{
             Scanner scan = new Scanner(file);
@@ -89,30 +90,33 @@ public class StartManual extends javax.swing.JFrame {
             while(scan.hasNextLine()){
                 
                 //split each line of the file and store as an array
-                String[] data=scan.nextLine().split("||");
+                String[] data=scan.nextLine().split(",,");
                 switch(data.length){
                     case 3:
-                        result+= persons.get(index).toString();
-                        index++;
+                        result.append("User: ").append(data[0])
+                          .append(", Experience: ").append(data[1])
+                          .append(", Type: ").append(data[2]).append("\n");
                         break;
                     case 1:
-                        result+=data[0]+"/n";
+                        result.append(data[0]+"\n");
                         break;
                     case 2:
-                        result+="Total score:"+data[0]+"/n";
+                        result.append("Total score:"+data[0]+"\n");
                         break;
                     case 4:
-                        result+=data[0]+"/n";
+                        result.append(data[0]+"\n");
                         break;
                    
                 }
             
             }
+            
             scan.close();//save the scan
         } catch (IOException e) {
             System.err.println(e);
            
         }
+        return result.toString();
   
     }
 //        //Method with return and no parameter
@@ -145,7 +149,7 @@ public class StartManual extends javax.swing.JFrame {
             //creat the printwriter object
             PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
             //write the information to the file and round the double to 2 decimal point
-            writer.printf("%s||%d||%s%n",name,experience,identity);
+            writer.printf("%s,,%d,,%s%n",name,experience,identity);
 
             writer.close();//save the writer
         }catch(IOException ioee){
@@ -174,7 +178,7 @@ public class StartManual extends javax.swing.JFrame {
             PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
             //write the information to the file and round the double to 2 decimal point
            
-            writer.printf("%d||no%n",score);
+            writer.printf("%d,,no%n",score);
 
             writer.close();//save the writer
         }catch(IOException ioee){
@@ -188,7 +192,7 @@ public class StartManual extends javax.swing.JFrame {
             PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
             //write the information to the file and round the double to 2 decimal point
            
-            writer.printf("%d||no||no%n",s);
+            writer.printf("%d,,no,,no%n",s);
 
             writer.close();//save the writer
         }catch(IOException ioee){
@@ -330,14 +334,15 @@ public class StartManual extends javax.swing.JFrame {
 */
     private void reviewHistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewHistoryButtonActionPerformed
         // TODO add your handling code here:
-        if(!persons.isEmpty()){//if there's nothing in the text stored before
-        javax.swing.JOptionPane.showMessageDialog(this, "No quiz history yet!");//use dialog to print out the message
-        } else {
-        String result ="History:/n";//prepare for the message print below
-        readFile(result); 
-        javax.swing.JOptionPane.showMessageDialog(this, result);//printout the result in the dialog
-        
-    }//Use dialog because of better GUI, learned from Youtube
+     String historyOutput = readFile();
+
+    if (historyOutput == null || historyOutput.contains("No score history file found.")) {
+        // If readFile returns null (file doesn't exist) or a specific error message
+        javax.swing.JOptionPane.showMessageDialog(this, "No quiz history file found to review!");
+    } else {
+        // readFile() is now guaranteed to return a formatted string
+        javax.swing.JOptionPane.showMessageDialog(this, historyOutput);
+    }
     }//GEN-LAST:event_reviewHistoryButtonActionPerformed
 
     /**
