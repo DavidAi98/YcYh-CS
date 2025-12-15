@@ -35,12 +35,10 @@ import java.util.Scanner;
 public class StartManual extends javax.swing.JFrame {
     
     private static ArrayList<Person> persons = new java.util.ArrayList<>();
-    public static java.util.ArrayList<Integer> scoreHistory = new java.util.ArrayList<>();
 //Very impottant for storing the scores
-     private static final String HISTORY_FILE = "scoreHistory.txt";
+    private static final String HISTORY_FILE = "scoreHistory.txt";
 //Very important for the History File- can read and type in again even the program is shutted down
     public static int NOP;
-    public int[] localOptions;
     
     
     public static ArrayList<Person> getList() {
@@ -79,29 +77,46 @@ public class StartManual extends javax.swing.JFrame {
 //}
     
         //Method with no return and parameter
-    public static void readFile(String result){
+    public static String readFile(){
         //initialize and define the index counting varible
         int index = 0;
+        StringBuilder result = new StringBuilder("\nHistory:\n");
         File file = new File(HISTORY_FILE);
-        if (!file.exists()) return;
+        if (!file.exists()) return "No score history file found.";
         
         try{
             Scanner scan = new Scanner(file);
             //use while loop and hasNextLIne method to go through each line and store the data to the array
             while(scan.hasNextLine()){
-            
                 
                 //split each line of the file and store as an array
-                String[] data=scan.nextLine().split("||");
-                if(data.length>2){
-                    result+=data[0]+"/n";
+                String[] data=scan.nextLine().split(",,");
+                switch(data.length){
+                    case 3:
+                        result.append("User: ").append(data[0])
+                          .append(", Experience: ").append(data[1])
+                          .append(", Type: ").append(data[2]).append("\n");
+                        break;
+                    case 1:
+                        result.append(data[0]+"\n");
+                        break;
+                    case 2:
+                        result.append("Total score:"+data[0]+"\n");
+                        break;
+                    case 4:
+                        result.append(data[0]+"\n");
+                        break;
+                   
                 }
+            
             }
+            
             scan.close();//save the scan
         } catch (IOException e) {
             System.err.println(e);
            
         }
+        return result.toString();
   
     }
 //        //Method with return and no parameter
@@ -134,7 +149,7 @@ public class StartManual extends javax.swing.JFrame {
             //creat the printwriter object
             PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
             //write the information to the file and round the double to 2 decimal point
-            writer.printf("%s||%d||%s%n",name,experience,identity);
+            writer.printf("%s,,%d,,%s%n",name,experience,identity);
 
             writer.close();//save the writer
         }catch(IOException ioee){
@@ -148,7 +163,7 @@ public class StartManual extends javax.swing.JFrame {
             //creat the printwriter object
             PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
             //write the information to the file and round the double to 2 decimal point
-            for(int i = 0;i<5;i++)
+            for(int i = 0;i<12;i++)
                  writer.printf("%d%n",options[i]);
 
             writer.close();//save the writer
@@ -156,14 +171,28 @@ public class StartManual extends javax.swing.JFrame {
             System.err.println(ioee);
         }
     }
-        public static void writeFile(int score){
+    public static void writeFile(int score){
         //write to the file. This is called in AddNew frame
         try{
             //creat the printwriter object
             PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
             //write the information to the file and round the double to 2 decimal point
            
-            writer.println(score);
+            writer.printf("%d,,no%n",score);
+
+            writer.close();//save the writer
+        }catch(IOException ioee){
+            System.err.println(ioee);
+        }
+    }
+    public static void writeFile(String s){
+                
+        try{
+            //creat the printwriter object
+            PrintWriter writer = new PrintWriter(new FileWriter(HISTORY_FILE,true));
+            //write the information to the file and round the double to 2 decimal point
+           
+            writer.printf("%s,,no,,no%n",s);
 
             writer.close();//save the writer
         }catch(IOException ioee){
@@ -190,41 +219,26 @@ public class StartManual extends javax.swing.JFrame {
      * Creates new form HomeFrame
      */
     public StartManual() {
-        initComponents();
-        
-        
-       
-//        loadHistoryFromFile(); 
-        // Load stored score history on startup
-        
-        //Below is some GUI design, not important but beautiful
-        getContentPane().setBackground(new java.awt.Color(224, 242, 221)); // 淡绿色背景
-    
-        java.awt.Color leafGreen = new java.awt.Color(69, 132, 73); // 叶片深绿
-        java.awt.Color softWhite = new java.awt.Color(250, 250, 245); // 柔和白
-    
-        startQuizButton.setBackground(softWhite);
-        startQuizButton.setForeground(leafGreen);
-        startQuizButton.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 18));
-        
-        reviewHistoryButton.setBackground(softWhite);
-        reviewHistoryButton.setForeground(leafGreen);
-        reviewHistoryButton.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 18));
-        
-        
-        jLabel1.setBackground(softWhite);
-        jLabel1.setForeground(leafGreen);
-        jLabel1.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 18));
-        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(leafGreen, 2, true));
-    
-        // 圆角按钮效果
-        startQuizButton.setFocusPainted(false);
-        reviewHistoryButton.setFocusPainted(false);
-        
-        startQuizButton.addMouseListener(new HoverEffect(startQuizButton, softWhite, new java.awt.Color(239, 255, 239)));
-        reviewHistoryButton.addMouseListener(new HoverEffect(reviewHistoryButton, softWhite, new java.awt.Color(239, 255, 239)));
+    initComponents();
 
-    }
+    UITheme.applyFrame(this);
+
+    UITheme.styleButton(startQuizButton);
+    UITheme.styleButton(reviewHistoryButton);
+
+    UITheme.styleLabel(jLabel1);
+    jLabel1.setBorder(
+        javax.swing.BorderFactory.createLineBorder(UITheme.MAIN_GREEN, 2, true)
+    );
+
+    startQuizButton.addMouseListener(
+        new HoverEffect(startQuizButton, UITheme.SOFT_WHITE, new java.awt.Color(239,255,239))
+    );
+    reviewHistoryButton.addMouseListener(
+        new HoverEffect(reviewHistoryButton, UITheme.SOFT_WHITE, new java.awt.Color(239,255,239))
+    );
+}
+
 
 
     
@@ -241,8 +255,6 @@ public class StartManual extends javax.swing.JFrame {
         startQuizButton = new javax.swing.JButton();
         reviewHistoryButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -262,16 +274,6 @@ public class StartManual extends javax.swing.JFrame {
 
         jLabel1.setText("Are you 'green' enough?----    Quiz Check App");
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel2.setText("Yunhao Sun");
-
-        jButton1.setText("Feedback");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -284,14 +286,8 @@ public class StartManual extends javax.swing.JFrame {
                         .addComponent(startQuizButton)
                         .addGap(18, 18, 18)
                         .addComponent(reviewHistoryButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(179, 179, 179))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,11 +297,8 @@ public class StartManual extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(reviewHistoryButton)
-                    .addComponent(startQuizButton)
-                    .addComponent(jButton1))
-                .addGap(139, 139, 139)
-                .addComponent(jLabel2)
-                .addContainerGap())
+                    .addComponent(startQuizButton))
+                .addGap(159, 159, 159))
         );
 
         pack();
@@ -326,25 +319,16 @@ public class StartManual extends javax.swing.JFrame {
 */
     private void reviewHistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewHistoryButtonActionPerformed
         // TODO add your handling code here:
-        if(!scoreHistory.isEmpty()){//if there's nothing in the text stored before
-        javax.swing.JOptionPane.showMessageDialog(this, "No quiz history yet!");//use dialog to print out the message
-        } else {
-        String result = "Scores:\n";//prepare for the message print below
-        for(int i = 0; i < persons.size(); i++){//for loop to get the score
-            result+= persons.get(i).toString();
-            readFile(result); 
-        }
-        javax.swing.JOptionPane.showMessageDialog(this, result);//printout the result in the dialog
-        
-    }//Use dialog because of better GUI, learned from Youtube
-    }//GEN-LAST:event_reviewHistoryButtonActionPerformed
+     String historyOutput = readFile();
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
-        new Feedback().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    if (historyOutput == null || historyOutput.contains("No score history file found.")) {
+        // If readFile returns null (file doesn't exist) or a specific error message
+        javax.swing.JOptionPane.showMessageDialog(this, "No quiz history file found to review!");
+    } else {
+        // readFile() is now guaranteed to return a formatted string
+        javax.swing.JOptionPane.showMessageDialog(this, historyOutput);
+    }
+    }//GEN-LAST:event_reviewHistoryButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -415,9 +399,7 @@ class HoverEffect extends java.awt.event.MouseAdapter {
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton reviewHistoryButton;
     private javax.swing.JButton startQuizButton;
     // End of variables declaration//GEN-END:variables
