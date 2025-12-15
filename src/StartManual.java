@@ -219,41 +219,26 @@ public class StartManual extends javax.swing.JFrame {
      * Creates new form HomeFrame
      */
     public StartManual() {
-        initComponents();
-        
-        
-       
-//        loadHistoryFromFile(); 
-        // Load stored score history on startup
-        
-        //Below is some GUI design, not important but beautiful
-        getContentPane().setBackground(new java.awt.Color(224, 242, 221)); // 淡绿色背景
-    
-        java.awt.Color leafGreen = new java.awt.Color(69, 132, 73); // 叶片深绿
-        java.awt.Color softWhite = new java.awt.Color(250, 250, 245); // 柔和白
-    
-        startQuizButton.setBackground(softWhite);
-        startQuizButton.setForeground(leafGreen);
-        startQuizButton.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 18));
-        
-        reviewHistoryButton.setBackground(softWhite);
-        reviewHistoryButton.setForeground(leafGreen);
-        reviewHistoryButton.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 18));
-        
-        
-        jLabel1.setBackground(softWhite);
-        jLabel1.setForeground(leafGreen);
-        jLabel1.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 18));
-        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(leafGreen, 2, true));
-    
-        // 圆角按钮效果
-        startQuizButton.setFocusPainted(false);
-        reviewHistoryButton.setFocusPainted(false);
-        
-        startQuizButton.addMouseListener(new HoverEffect(startQuizButton, softWhite, new java.awt.Color(239, 255, 239)));
-        reviewHistoryButton.addMouseListener(new HoverEffect(reviewHistoryButton, softWhite, new java.awt.Color(239, 255, 239)));
+    initComponents();
 
-    }
+    UITheme.applyFrame(this);
+
+    UITheme.styleButton(startQuizButton);
+    UITheme.styleButton(reviewHistoryButton);
+
+    UITheme.styleLabel(jLabel1);
+    jLabel1.setBorder(
+        javax.swing.BorderFactory.createLineBorder(UITheme.MAIN_GREEN, 2, true)
+    );
+
+    startQuizButton.addMouseListener(
+        new HoverEffect(startQuizButton, UITheme.SOFT_WHITE, new java.awt.Color(239,255,239))
+    );
+    reviewHistoryButton.addMouseListener(
+        new HoverEffect(reviewHistoryButton, UITheme.SOFT_WHITE, new java.awt.Color(239,255,239))
+    );
+}
+
 
 
     
