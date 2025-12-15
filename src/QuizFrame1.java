@@ -23,8 +23,16 @@ public class QuizFrame1 extends javax.swing.JFrame {
      * Creates new form StartFrame
      */
     public QuizFrame1() {
-        initComponents();
-    }
+    initComponents();
+
+    UITheme.applyFrame(this);
+
+    UITheme.styleButton(jButton1); // User
+    UITheme.styleButton(jButton2); // Developer
+
+    UITheme.styleLabel(jLabel2);
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
