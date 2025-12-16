@@ -295,7 +295,7 @@ public class StartManual extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Are you 'green' enough?----    Quiz Check App");
+        jLabel1.setText("Are you 'Private' enough?---- Privacy risk Analysis");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

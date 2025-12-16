@@ -72,7 +72,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Are you &apos;green&apos; enough?----    Quiz Check App"/>
+        <Property name="text" type="java.lang.String" value="Are you &apos;Private&apos; enough?---- Privacy risk Analysis"/>
       </Properties>
     </Component>
   </SubComponents>
