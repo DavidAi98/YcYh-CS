@@ -219,25 +219,48 @@ public class StartManual extends javax.swing.JFrame {
      * Creates new form HomeFrame
      */
     public StartManual() {
+    // Initialize all Swing components created in the GUI designer
     initComponents();
-
+    
+    // Apply the overall theme (background color, font, etc.) to this frame
     UITheme.applyFrame(this);
 
+    // Apply consistent styling (colors, font, rounded corners) to buttons
     UITheme.styleButton(startQuizButton);
     UITheme.styleButton(reviewHistoryButton);
 
+    // Apply theme styling to the main title label
     UITheme.styleLabel(jLabel1);
+
+    // Add a rounded green border around the title label
     jLabel1.setBorder(
-        javax.swing.BorderFactory.createLineBorder(UITheme.MAIN_GREEN, 2, true)
+        javax.swing.BorderFactory.createLineBorder(
+            UITheme.MAIN_GREEN, // border color
+            2,                 // border thickness
+            true               // rounded corners
+        )
     );
 
+    // Add hover effect to "Start Quiz" button
+    // Changes background color when mouse enters/exits the button
     startQuizButton.addMouseListener(
-        new HoverEffect(startQuizButton, UITheme.SOFT_WHITE, new java.awt.Color(239,255,239))
+        new HoverEffect(
+            startQuizButton,              // target button
+            UITheme.SOFT_WHITE,            // normal background color
+            new java.awt.Color(239,255,239) // hover background color
+        )
     );
+
+    // Add hover effect to "Review History" button
     reviewHistoryButton.addMouseListener(
-        new HoverEffect(reviewHistoryButton, UITheme.SOFT_WHITE, new java.awt.Color(239,255,239))
+        new HoverEffect(
+            reviewHistoryButton, 
+            UITheme.SOFT_WHITE, 
+            new java.awt.Color(239,255,239)
+        )
     );
 }
+
 
 
 
@@ -280,25 +303,25 @@ public class StartManual extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(181, 181, 181)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(startQuizButton)
-                        .addGap(18, 18, 18)
+                        .addGap(86, 86, 86)
                         .addComponent(reviewHistoryButton)
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(179, 179, 179))
+                .addGap(279, 279, 279))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(159, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(165, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(reviewHistoryButton)
                     .addComponent(startQuizButton))
-                .addGap(159, 159, 159))
+                .addGap(165, 165, 165))
         );
 
         pack();
