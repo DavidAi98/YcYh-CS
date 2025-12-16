@@ -19,43 +19,85 @@ public class Feedback extends javax.swing.JFrame {
      * @param userChoices
      */
     public Feedback(int[] userChoices) {
-        initComponents();
-        getContentPane().setBackground(new java.awt.Color(224, 242, 221)); // 背景浅绿
-        java.awt.Color leafGreen = new java.awt.Color(69, 132, 73); // 深叶绿
-        
-        feedbackArea.setBackground(new java.awt.Color(245, 255, 245));
-        feedbackArea.setForeground(leafGreen);
-        feedbackArea.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 16));
-        feedbackArea.setBorder(javax.swing.BorderFactory.createLineBorder(leafGreen, 2, true));
 
-        jButton1.setBackground(new java.awt.Color(250, 250, 245));
-        jButton1.setForeground(leafGreen);
-        jButton1.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 16));
-        jButton1.setFocusPainted(false);
-        showFeedback(userChoices);
-    }
+    // Initialize all Swing components created by the GUI builder
+    initComponents();
+
+    // Set the background color of the frame (light green theme)
+    getContentPane().setBackground(new java.awt.Color(224, 242, 221));
+
+    // Define a reusable dark green color for text and borders
+    java.awt.Color leafGreen = new java.awt.Color(69, 132, 73);
+
+    // Style the feedback text area
+    feedbackArea.setBackground(new java.awt.Color(245, 255, 245)); // soft green background
+    feedbackArea.setForeground(leafGreen);                         // text color
+    feedbackArea.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 16));
+    feedbackArea.setBorder(
+        javax.swing.BorderFactory.createLineBorder(
+            leafGreen,  // border color
+            2,          // border thickness
+            true        // rounded corners
+        )
+    );
+
+    // Style the button (e.g., Back / Close button)
+    jButton1.setBackground(new java.awt.Color(250, 250, 245)); // soft white
+    jButton1.setForeground(leafGreen);                         // text color
+    jButton1.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 16));
+    jButton1.setFocusPainted(false);                            // remove focus outline
+
+    // Display the feedback based on the user's answers
+    showFeedback(userChoices);
+}
+
 
 private void showFeedback(int[] userChoices) {
 
+    // StringBuilder for displaying formatted feedback in the text area
     StringBuilder sb = new StringBuilder("--- Your Detailed Feedback ---\n\n");
+
+    // StringBuilder for saving feedback to a file (CSV-style format)
     StringBuilder fileOutput = new StringBuilder();
 
-    for (int i = 0; i < userChoices.length; i++) {
+    // Loop through each question's feedback
+    for (int i = 0; i < feedback.length; i++) {
+
+        // Get the feedback text based on the user's selected answer
         String currentFeedback = feedback[i][userChoices[i]];
+
+        // Add feedback to the on-screen display
         sb.append("Question ").append(i + 1).append(":\n");
         sb.append(currentFeedback);
         sb.append("\n\n");
-        fileOutput.append("Feedback Q").append(i + 1).append(": ").append(currentFeedback).append(",,");
-    }
 
+        // Add feedback to the file output string
+        // ",," is used as a separator between entries
+        fileOutput.append("Feedback Q")
+                  .append(i + 1)
+                  .append(": ")
+                  .append(currentFeedback)
+                  .append(",,");
+    }
+};
+
+    // Display feedback in the text area
     feedbackArea.setText(sb.toString());
-    feedbackArea.setCaretPosition(0); // scroll to top
+
+    // Scroll text area to the top
+    feedbackArea.setCaretPosition(0);
+
+    // Prevent user from editing the feedback text
     feedbackArea.setEditable(false);
+
+    // Enable line wrapping for better readability
     feedbackArea.setLineWrap(true);
     feedbackArea.setWrapStyleWord(true);
-    StartManual.writeFile(fileOutput.toString());
 
+    // Save feedback to a file using StartManual's file-writing method
+    StartManual.writeFile(fileOutput.toString());
 }
+
     
 String[][] feedback = {
     {
