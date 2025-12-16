@@ -79,6 +79,7 @@ private void showFeedback(int[] userChoices) {
                   .append(currentFeedback)
                   .append(",,");
     }
+};
 
     // Display feedback in the text area
     feedbackArea.setText(sb.toString());
