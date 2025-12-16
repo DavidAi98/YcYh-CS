@@ -19,21 +19,38 @@ public class Feedback extends javax.swing.JFrame {
      * @param userChoices
      */
     public Feedback(int[] userChoices) {
-        initComponents();
-        getContentPane().setBackground(new java.awt.Color(224, 242, 221)); // 背景浅绿
-        java.awt.Color leafGreen = new java.awt.Color(69, 132, 73); // 深叶绿
-        
-        feedbackArea.setBackground(new java.awt.Color(245, 255, 245));
-        feedbackArea.setForeground(leafGreen);
-        feedbackArea.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 16));
-        feedbackArea.setBorder(javax.swing.BorderFactory.createLineBorder(leafGreen, 2, true));
 
-        jButton1.setBackground(new java.awt.Color(250, 250, 245));
-        jButton1.setForeground(leafGreen);
-        jButton1.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 16));
-        jButton1.setFocusPainted(false);
-        showFeedback(userChoices);
-    }
+    // Initialize all Swing components created by the GUI builder
+    initComponents();
+
+    // Set the background color of the frame (light green theme)
+    getContentPane().setBackground(new java.awt.Color(224, 242, 221));
+
+    // Define a reusable dark green color for text and borders
+    java.awt.Color leafGreen = new java.awt.Color(69, 132, 73);
+
+    // Style the feedback text area
+    feedbackArea.setBackground(new java.awt.Color(245, 255, 245)); // soft green background
+    feedbackArea.setForeground(leafGreen);                         // text color
+    feedbackArea.setFont(new java.awt.Font("Serif", java.awt.Font.PLAIN, 16));
+    feedbackArea.setBorder(
+        javax.swing.BorderFactory.createLineBorder(
+            leafGreen,  // border color
+            2,          // border thickness
+            true        // rounded corners
+        )
+    );
+
+    // Style the button (e.g., Back / Close button)
+    jButton1.setBackground(new java.awt.Color(250, 250, 245)); // soft white
+    jButton1.setForeground(leafGreen);                         // text color
+    jButton1.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 16));
+    jButton1.setFocusPainted(false);                            // remove focus outline
+
+    // Display the feedback based on the user's answers
+    showFeedback(userChoices);
+}
+
 
 private void showFeedback(int[] userChoices) {
 
