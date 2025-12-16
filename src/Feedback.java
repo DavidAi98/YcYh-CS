@@ -37,25 +37,49 @@ public class Feedback extends javax.swing.JFrame {
 
 private void showFeedback(int[] userChoices) {
 
+    // StringBuilder for displaying formatted feedback in the text area
     StringBuilder sb = new StringBuilder("--- Your Detailed Feedback ---\n\n");
+
+    // StringBuilder for saving feedback to a file (CSV-style format)
     StringBuilder fileOutput = new StringBuilder();
 
-    for (int i = 0; i < userChoices.length; i++) {
+    // Loop through each question's feedback
+    for (int i = 0; i < feedback.length; i++) {
+
+        // Get the feedback text based on the user's selected answer
         String currentFeedback = feedback[i][userChoices[i]];
+
+        // Add feedback to the on-screen display
         sb.append("Question ").append(i + 1).append(":\n");
         sb.append(currentFeedback);
         sb.append("\n\n");
-        fileOutput.append("Feedback Q").append(i + 1).append(": ").append(currentFeedback).append(",,");
+
+        // Add feedback to the file output string
+        // ",," is used as a separator between entries
+        fileOutput.append("Feedback Q")
+                  .append(i + 1)
+                  .append(": ")
+                  .append(currentFeedback)
+                  .append(",,");
     }
 
+    // Display feedback in the text area
     feedbackArea.setText(sb.toString());
-    feedbackArea.setCaretPosition(0); // scroll to top
+
+    // Scroll text area to the top
+    feedbackArea.setCaretPosition(0);
+
+    // Prevent user from editing the feedback text
     feedbackArea.setEditable(false);
+
+    // Enable line wrapping for better readability
     feedbackArea.setLineWrap(true);
     feedbackArea.setWrapStyleWord(true);
-    StartManual.writeFile(fileOutput.toString());
 
+    // Save feedback to a file using StartManual's file-writing method
+    StartManual.writeFile(fileOutput.toString());
 }
+
     
 String[][] feedback = {
     {
